@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EntrepriseIndexRouteImport } from './routes/entreprise/index'
+import { Route as ConsultantIndexRouteImport } from './routes/consultant/index'
+import { Route as EntrepriseInscriptionRouteImport } from './routes/entreprise/inscription'
+import { Route as EntrepriseConnexionRouteImport } from './routes/entreprise/connexion'
+import { Route as ConsultantInscriptionRouteImport } from './routes/consultant/inscription'
+import { Route as ConsultantConnexionRouteImport } from './routes/consultant/connexion'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EntrepriseIndexRoute = EntrepriseIndexRouteImport.update({
+  id: '/entreprise/',
+  path: '/entreprise/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsultantIndexRoute = ConsultantIndexRouteImport.update({
+  id: '/consultant/',
+  path: '/consultant/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntrepriseInscriptionRoute = EntrepriseInscriptionRouteImport.update({
+  id: '/entreprise/inscription',
+  path: '/entreprise/inscription',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntrepriseConnexionRoute = EntrepriseConnexionRouteImport.update({
+  id: '/entreprise/connexion',
+  path: '/entreprise/connexion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsultantInscriptionRoute = ConsultantInscriptionRouteImport.update({
+  id: '/consultant/inscription',
+  path: '/consultant/inscription',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsultantConnexionRoute = ConsultantConnexionRouteImport.update({
+  id: '/consultant/connexion',
+  path: '/consultant/connexion',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/consultant/connexion': typeof ConsultantConnexionRoute
+  '/consultant/inscription': typeof ConsultantInscriptionRoute
+  '/entreprise/connexion': typeof EntrepriseConnexionRoute
+  '/entreprise/inscription': typeof EntrepriseInscriptionRoute
+  '/consultant/': typeof ConsultantIndexRoute
+  '/entreprise/': typeof EntrepriseIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/consultant/connexion': typeof ConsultantConnexionRoute
+  '/consultant/inscription': typeof ConsultantInscriptionRoute
+  '/entreprise/connexion': typeof EntrepriseConnexionRoute
+  '/entreprise/inscription': typeof EntrepriseInscriptionRoute
+  '/consultant': typeof ConsultantIndexRoute
+  '/entreprise': typeof EntrepriseIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/consultant/connexion': typeof ConsultantConnexionRoute
+  '/consultant/inscription': typeof ConsultantInscriptionRoute
+  '/entreprise/connexion': typeof EntrepriseConnexionRoute
+  '/entreprise/inscription': typeof EntrepriseInscriptionRoute
+  '/consultant/': typeof ConsultantIndexRoute
+  '/entreprise/': typeof EntrepriseIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/consultant/connexion'
+    | '/consultant/inscription'
+    | '/entreprise/connexion'
+    | '/entreprise/inscription'
+    | '/consultant/'
+    | '/entreprise/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/consultant/connexion'
+    | '/consultant/inscription'
+    | '/entreprise/connexion'
+    | '/entreprise/inscription'
+    | '/consultant'
+    | '/entreprise'
+  id:
+    | '__root__'
+    | '/'
+    | '/consultant/connexion'
+    | '/consultant/inscription'
+    | '/entreprise/connexion'
+    | '/entreprise/inscription'
+    | '/consultant/'
+    | '/entreprise/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConsultantConnexionRoute: typeof ConsultantConnexionRoute
+  ConsultantInscriptionRoute: typeof ConsultantInscriptionRoute
+  EntrepriseConnexionRoute: typeof EntrepriseConnexionRoute
+  EntrepriseInscriptionRoute: typeof EntrepriseInscriptionRoute
+  ConsultantIndexRoute: typeof ConsultantIndexRoute
+  EntrepriseIndexRoute: typeof EntrepriseIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,12 +130,70 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/entreprise/': {
+      id: '/entreprise/'
+      path: '/entreprise'
+      fullPath: '/entreprise/'
+      preLoaderRoute: typeof EntrepriseIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consultant/': {
+      id: '/consultant/'
+      path: '/consultant'
+      fullPath: '/consultant/'
+      preLoaderRoute: typeof ConsultantIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entreprise/inscription': {
+      id: '/entreprise/inscription'
+      path: '/entreprise/inscription'
+      fullPath: '/entreprise/inscription'
+      preLoaderRoute: typeof EntrepriseInscriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entreprise/connexion': {
+      id: '/entreprise/connexion'
+      path: '/entreprise/connexion'
+      fullPath: '/entreprise/connexion'
+      preLoaderRoute: typeof EntrepriseConnexionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consultant/inscription': {
+      id: '/consultant/inscription'
+      path: '/consultant/inscription'
+      fullPath: '/consultant/inscription'
+      preLoaderRoute: typeof ConsultantInscriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consultant/connexion': {
+      id: '/consultant/connexion'
+      path: '/consultant/connexion'
+      fullPath: '/consultant/connexion'
+      preLoaderRoute: typeof ConsultantConnexionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConsultantConnexionRoute: ConsultantConnexionRoute,
+  ConsultantInscriptionRoute: ConsultantInscriptionRoute,
+  EntrepriseConnexionRoute: EntrepriseConnexionRoute,
+  EntrepriseInscriptionRoute: EntrepriseInscriptionRoute,
+  ConsultantIndexRoute: ConsultantIndexRoute,
+  EntrepriseIndexRoute: EntrepriseIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
