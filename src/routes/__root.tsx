@@ -72,14 +72,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Portail Agence IA — Automatisation, IA, applications sur mesure" },
+      { name: "description", content: "Agence IA : nous accompagnons consultants et entreprises pour automatiser, créer des applications et déployer des solutions IA." },
+      { name: "author", content: "Portail Agence IA" },
+      { property: "og:title", content: "Portail Agence IA" },
+      { property: "og:description", content: "Espaces Consultant et Entreprise pour suivre projets et demandes." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
