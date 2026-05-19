@@ -5,7 +5,7 @@ export function SiteHeader() {
     <header className="border-b border-border/60">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
         <Link to="/" className="text-sm font-semibold tracking-tight">
-          Portail Agence IA
+          Portail Agence
         </Link>
         <nav className="hidden items-center gap-8 text-sm md:flex">
           <Link to="/consultant" className="text-foreground/70 hover:text-foreground">
