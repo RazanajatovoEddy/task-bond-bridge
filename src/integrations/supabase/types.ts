@@ -14,16 +14,235 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      company_profiles: {
+        Row: {
+          company_name: string
+          contact_name: string
+          created_at: string
+          id: string
+          phone: string | null
+          user_id: string
+        }
+        Insert: {
+          company_name: string
+          contact_name: string
+          created_at?: string
+          id?: string
+          phone?: string | null
+          user_id: string
+        }
+        Update: {
+          company_name?: string
+          contact_name?: string
+          created_at?: string
+          id?: string
+          phone?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      consultant_profiles: {
+        Row: {
+          availability: string | null
+          created_at: string
+          first_name: string
+          id: string
+          last_name: string
+          specialty: string
+          user_id: string
+        }
+        Insert: {
+          availability?: string | null
+          created_at?: string
+          first_name: string
+          id?: string
+          last_name: string
+          specialty: string
+          user_id: string
+        }
+        Update: {
+          availability?: string | null
+          created_at?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          specialty?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          request_id: string
+          sender_user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          request_id: string
+          sender_user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          request_id?: string
+          sender_user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      project_members: {
+        Row: {
+          consultant_id: string
+          created_at: string
+          id: string
+          request_id: string
+        }
+        Insert: {
+          consultant_id: string
+          created_at?: string
+          id?: string
+          request_id: string
+        }
+        Update: {
+          consultant_id?: string
+          created_at?: string
+          id?: string
+          request_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_members_consultant_id_fkey"
+            columns: ["consultant_id"]
+            isOneToOne: false
+            referencedRelation: "consultant_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_members_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      requests: {
+        Row: {
+          budget: string | null
+          company_id: string
+          created_at: string
+          deadline: string | null
+          description: string
+          id: string
+          priority: string | null
+          status: Database["public"]["Enums"]["request_status"]
+          title: string
+          type: Database["public"]["Enums"]["request_type"]
+        }
+        Insert: {
+          budget?: string | null
+          company_id: string
+          created_at?: string
+          deadline?: string | null
+          description: string
+          id?: string
+          priority?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          title: string
+          type?: Database["public"]["Enums"]["request_type"]
+        }
+        Update: {
+          budget?: string | null
+          company_id?: string
+          created_at?: string
+          deadline?: string | null
+          description?: string
+          id?: string
+          priority?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          title?: string
+          type?: Database["public"]["Enums"]["request_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "requests_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_request_member: {
+        Args: { _request_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "consultant" | "entreprise"
+      request_status: "new" | "in_progress" | "waiting" | "done"
+      request_type: "automation" | "app" | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +369,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["consultant", "entreprise"],
+      request_status: ["new", "in_progress", "waiting", "done"],
+      request_type: ["automation", "app", "other"],
+    },
   },
 } as const
