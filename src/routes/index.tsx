@@ -17,7 +17,7 @@ function Index() {
         <section className="grid gap-12 py-20 md:grid-cols-12 md:py-32">
           <div className="md:col-span-5">
             <p className="text-xs uppercase tracking-widest text-muted-foreground">
-              Mission // Agence IA
+              Mission // Agence
             </p>
             <div className="mt-12 max-w-sm rounded-md bg-accent p-8">
               <p className="text-sm font-semibold">forge®</p>
