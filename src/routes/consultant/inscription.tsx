@@ -5,15 +5,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { SiteHeader } from "@/components/site-header";
 import { toast } from "sonner";
+
+const SPECIALTIES = [
+  { value: "automation", label: "Automatisation" },
+  { value: "dev", label: "Développement" },
+  { value: "data", label: "Data" },
+  { value: "ia", label: "IA" },
+  { value: "nocode", label: "No-code" },
+];
 
 export const Route = createFileRoute("/consultant/inscription")({
   component: ConsultantSignup,
