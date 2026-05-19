@@ -26,21 +26,37 @@ const schema = z.object({
   lastName: z.string().trim().min(1).max(80),
   email: z.string().trim().email().max(255),
   password: z.string().min(8).max(72),
-  specialty: z.string().min(1),
+  specialty: z.array(z.string()).min(1),
   availability: z.string().max(80).optional().or(z.literal("")),
 });
 
 function ConsultantSignup() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    specialty: string[];
+    availability: string;
+  }>({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    specialty: "automation",
+    specialty: [],
     availability: "",
   });
+
+  const toggleSpecialty = (value: string, checked: boolean) => {
+    setForm((f) => ({
+      ...f,
+      specialty: checked
+        ? [...f.specialty, value]
+        : f.specialty.filter((v) => v !== value),
+    }));
+  };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
