@@ -147,22 +147,24 @@ function ConsultantSignup() {
             />
           </div>
           <div>
-            <Label>Spécialité</Label>
-            <Select
-              value={form.specialty}
-              onValueChange={(v) => setForm({ ...form, specialty: v })}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="automation">Automatisation</SelectItem>
-                <SelectItem value="dev">Développement</SelectItem>
-                <SelectItem value="data">Data</SelectItem>
-                <SelectItem value="ia">IA</SelectItem>
-                <SelectItem value="nocode">No-code</SelectItem>
-              </SelectContent>
-            </Select>
+            <Label>Spécialité(s)</Label>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              {SPECIALTIES.map((s) => {
+                const checked = form.specialty.includes(s.value);
+                return (
+                  <label
+                    key={s.value}
+                    className="flex items-center gap-2 rounded-md border border-input px-3 py-2 cursor-pointer hover:bg-muted"
+                  >
+                    <Checkbox
+                      checked={checked}
+                      onCheckedChange={(c) => toggleSpecialty(s.value, c === true)}
+                    />
+                    <span className="text-sm">{s.label}</span>
+                  </label>
+                );
+              })}
+            </div>
           </div>
           <div>
             <Label htmlFor="availability">Disponibilité (optionnel)</Label>
