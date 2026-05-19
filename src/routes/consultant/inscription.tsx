@@ -83,7 +83,7 @@ function ConsultantSignup() {
         user_id: userId,
         first_name: form.firstName,
         last_name: form.lastName,
-        specialty: form.specialty,
+        specialty: form.specialty.join(","),
         availability: form.availability || null,
       }),
     ]);
