@@ -5,15 +5,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { SiteHeader } from "@/components/site-header";
 import { toast } from "sonner";
+
+const SPECIALTIES = [
+  { value: "automation", label: "Automatisation" },
+  { value: "dev", label: "Développement" },
+  { value: "data", label: "Data" },
+  { value: "ia", label: "IA" },
+  { value: "nocode", label: "No-code" },
+];
 
 export const Route = createFileRoute("/consultant/inscription")({
   component: ConsultantSignup,
@@ -24,21 +26,37 @@ const schema = z.object({
   lastName: z.string().trim().min(1).max(80),
   email: z.string().trim().email().max(255),
   password: z.string().min(8).max(72),
-  specialty: z.string().min(1),
+  specialty: z.array(z.string()).min(1),
   availability: z.string().max(80).optional().or(z.literal("")),
 });
 
 function ConsultantSignup() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    specialty: string[];
+    availability: string;
+  }>({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    specialty: "automation",
+    specialty: [],
     availability: "",
   });
+
+  const toggleSpecialty = (value: string, checked: boolean) => {
+    setForm((f) => ({
+      ...f,
+      specialty: checked
+        ? [...f.specialty, value]
+        : f.specialty.filter((v) => v !== value),
+    }));
+  };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +83,7 @@ function ConsultantSignup() {
         user_id: userId,
         first_name: form.firstName,
         last_name: form.lastName,
-        specialty: form.specialty,
+        specialty: form.specialty.join(","),
         availability: form.availability || null,
       }),
     ]);
@@ -129,22 +147,24 @@ function ConsultantSignup() {
             />
           </div>
           <div>
-            <Label>Spécialité</Label>
-            <Select
-              value={form.specialty}
-              onValueChange={(v) => setForm({ ...form, specialty: v })}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="automation">Automatisation</SelectItem>
-                <SelectItem value="dev">Développement</SelectItem>
-                <SelectItem value="data">Data</SelectItem>
-                <SelectItem value="ia">IA</SelectItem>
-                <SelectItem value="nocode">No-code</SelectItem>
-              </SelectContent>
-            </Select>
+            <Label>Spécialité(s)</Label>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              {SPECIALTIES.map((s) => {
+                const checked = form.specialty.includes(s.value);
+                return (
+                  <label
+                    key={s.value}
+                    className="flex items-center gap-2 rounded-md border border-input px-3 py-2 cursor-pointer hover:bg-muted"
+                  >
+                    <Checkbox
+                      checked={checked}
+                      onCheckedChange={(c) => toggleSpecialty(s.value, c === true)}
+                    />
+                    <span className="text-sm">{s.label}</span>
+                  </label>
+                );
+              })}
+            </div>
           </div>
           <div>
             <Label htmlFor="availability">Disponibilité (optionnel)</Label>
