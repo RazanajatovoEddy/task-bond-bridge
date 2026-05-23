@@ -20,6 +20,7 @@ export type Database = {
           contact_name: string
           created_at: string
           id: string
+          is_active: boolean
           phone: string | null
           user_id: string
         }
@@ -28,6 +29,7 @@ export type Database = {
           contact_name: string
           created_at?: string
           id?: string
+          is_active?: boolean
           phone?: string | null
           user_id: string
         }
@@ -36,6 +38,7 @@ export type Database = {
           contact_name?: string
           created_at?: string
           id?: string
+          is_active?: boolean
           phone?: string | null
           user_id?: string
         }
@@ -47,6 +50,7 @@ export type Database = {
           created_at: string
           first_name: string
           id: string
+          is_active: boolean
           last_name: string
           specialties: string[]
           user_id: string
@@ -56,6 +60,7 @@ export type Database = {
           created_at?: string
           first_name: string
           id?: string
+          is_active?: boolean
           last_name: string
           specialties?: string[]
           user_id: string
@@ -65,6 +70,7 @@ export type Database = {
           created_at?: string
           first_name?: string
           id?: string
+          is_active?: boolean
           last_name?: string
           specialties?: string[]
           user_id?: string
@@ -120,6 +126,50 @@ export type Database = {
           id?: string
         }
         Relationships: []
+      }
+      project_documents: {
+        Row: {
+          created_at: string
+          document_type: Database["public"]["Enums"]["document_type"]
+          file_path: string
+          id: string
+          mime_type: string | null
+          name: string
+          request_id: string
+          size_bytes: number | null
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          document_type?: Database["public"]["Enums"]["document_type"]
+          file_path: string
+          id?: string
+          mime_type?: string | null
+          name: string
+          request_id: string
+          size_bytes?: number | null
+          uploaded_by: string
+        }
+        Update: {
+          created_at?: string
+          document_type?: Database["public"]["Enums"]["document_type"]
+          file_path?: string
+          id?: string
+          mime_type?: string | null
+          name?: string
+          request_id?: string
+          size_bytes?: number | null
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_documents_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "requests"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       project_members: {
         Row: {
@@ -234,6 +284,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_document_shared: {
+        Args: { _t: Database["public"]["Enums"]["document_type"] }
+        Returns: boolean
+      }
       is_request_member: {
         Args: { _request_id: string; _user_id: string }
         Returns: boolean
@@ -241,6 +295,15 @@ export type Database = {
     }
     Enums: {
       app_role: "consultant" | "entreprise" | "admin"
+      document_type:
+        | "brief"
+        | "specification"
+        | "livrable"
+        | "contrat"
+        | "devis"
+        | "facture"
+        | "bon_de_commande"
+        | "autre"
       request_status: "new" | "in_progress" | "waiting" | "done"
       request_type: "automation" | "app" | "other"
     }
@@ -371,6 +434,16 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["consultant", "entreprise", "admin"],
+      document_type: [
+        "brief",
+        "specification",
+        "livrable",
+        "contrat",
+        "devis",
+        "facture",
+        "bon_de_commande",
+        "autre",
+      ],
       request_status: ["new", "in_progress", "waiting", "done"],
       request_type: ["automation", "app", "other"],
     },
