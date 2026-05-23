@@ -5,6 +5,7 @@ import { AuthGuard } from "@/components/auth-guard";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { useAuth } from "@/hooks/use-auth";
 import { MessageThread } from "@/components/message-thread";
+import { ProjectDocuments } from "@/components/project-documents";
 import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/consultant/projets/$id")({
@@ -90,6 +91,15 @@ function ProjectDetail() {
             Résumé
           </h2>
           <p className="mt-3 whitespace-pre-wrap text-sm">{project.description}</p>
+        </div>
+
+        <div className="mt-10">
+          <ProjectDocuments
+            requestId={project.id}
+            currentUserId={user.id}
+            canUpload={false}
+            allowConfidential={false}
+          />
         </div>
 
         <div className="mt-10">
