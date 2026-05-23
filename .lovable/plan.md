@@ -1,80 +1,60 @@
-# Portail Agence IA — Plan d'implémentation
+## Objectif
 
-Application web responsive (mobile-first) avec deux portails distincts (Consultant / Entreprise), authentification par rôle, suivi de projets/demandes, KPIs et messagerie par projet.
+Ajouter une page **« Mon Compte »** accessible depuis un menu utilisateur dans les deux portails (Consultant et Entreprise) pour permettre la modification des informations du profil, et corriger en base le champ **Spécialité(s)** pour qu'il soit nativement multi-valeurs.
 
-## Stack & fondations
+---
 
-- Scaffold `web_app:portail-agence-ia` (template TanStack Start moderne)
-- Lovable Cloud activé pour : Auth email/mot de passe, base de données Postgres, RLS
-- Design tokens dans `index.css` :
-  - Primaire `#E6E4E0` (fond clair), Secondaire `#0A0A0A` (texte/contrastes)
-  - Accent jaune optionnel (clin d'œil à la réf Dribbble)
-  - Typo forte, large whitespace, layout minimaliste
-- Langue : interface en **français**
+## 1. Base de données — Spécialité(s) en multi-valeurs
 
-## Pages & routes
+Aujourd'hui `consultant_profiles.specialty` est un `text` (les valeurs sont stockées concaténées avec des virgules). On le passe en `text[]`.
 
-Routes publiques :
-- `/` — Accueil "Qui sommes-nous : Agence IA" (hero, services, 2 CTA vers portails, footer)
-- `/consultant` — Landing Portail Consultant
-- `/consultant/inscription`, `/consultant/connexion`
-- `/entreprise` — Landing Portail Entreprise
-- `/entreprise/inscription`, `/entreprise/connexion`
+Migration :
+- `ALTER TABLE consultant_profiles ADD COLUMN specialties text[] NOT NULL DEFAULT '{}'`
+- Backfill : `UPDATE consultant_profiles SET specialties = string_to_array(specialty, ',')`
+- `ALTER TABLE consultant_profiles DROP COLUMN specialty`
 
-Routes protégées (rôle = `consultant`) :
-- `/consultant/dashboard` — Liste des projets assignés (cards + statut)
-- `/consultant/projets/:id` — Détail projet (résumé, timeline, onglet Échanges)
-- `/consultant/indicateurs` — KPIs + graphiques (Recharts)
-- `/consultant/profil`
+Les politiques RLS existantes restent valides (pas de changement de scope).
 
-Routes protégées (rôle = `entreprise`) :
-- `/entreprise/dashboard` — Liste des demandes
-- `/entreprise/demandes/nouvelle` — Formulaire création demande
-- `/entreprise/demandes/:id` — Détail + fil de messages
-- `/entreprise/profil`
+---
 
-Garde de route : redirection selon `role` du user connecté.
+## 2. Menu utilisateur (header connecté)
 
-## Modèle de données (Lovable Cloud)
+Mise à jour de `src/components/dashboard-header.tsx` :
+- Remplacer le bouton « Déconnexion » seul par un **menu déroulant** (DropdownMenu shadcn) avec l'email/nom de l'utilisateur.
+- Entrées : **Mon Compte** → `/consultant/compte` ou `/entreprise/compte` selon le rôle, séparateur, **Déconnexion**.
+- Conserver le reste de la navigation existante.
 
-- `profiles` (lié à `auth.users`) : `id`, `email`, `created_at`
-- `user_roles` : `user_id`, `role` (`consultant` | `entreprise`) — **table séparée** (sécurité)
-- `consultant_profiles` : `user_id`, `first_name`, `last_name`, `specialty`, `availability`
-- `company_profiles` : `user_id`, `company_name`, `contact_name`, `phone`
-- `requests` : `id`, `company_id`, `title`, `type`, `description`, `budget`, `deadline`, `priority`, `status` (`new|in_progress|waiting|done`), `created_at`
-- `project_members` : `request_id`, `consultant_id` (assignation consultants ↔ demande)
-- `messages` : `id`, `request_id`, `sender_user_id`, `content`, `created_at`
+---
 
-MVP : on traite `requests` comme "projet" (pas de table `projects` séparée pour démarrer).
+## 3. Page « Mon Compte » — Consultant
 
-Fonction SECURITY DEFINER `has_role(user_id, role)` + policies RLS :
-- Entreprise voit/édite uniquement ses `requests`
-- Consultant voit uniquement les `requests` où il est dans `project_members`
-- Messages visibles uniquement aux membres du projet + l'entreprise propriétaire
+Nouveau fichier `src/routes/consultant/compte.tsx` (protégé par `AuthGuard` rôle consultant) :
+- Charge `consultant_profiles` du user via le client Supabase navigateur (RLS = `auth.uid() = user_id`).
+- Formulaire avec : Prénom, Nom, Email (lecture seule), **Spécialité(s)** (cases à cocher multi-sélection, mêmes options que l'inscription), Disponibilité.
+- Bouton **Enregistrer** → `update` sur `consultant_profiles` (specialties en `text[]`).
+- Toast succès/erreur.
 
-## Étapes d'implémentation
+---
 
-1. Scaffold web_app + activation Lovable Cloud
-2. Design system (tokens couleurs, typo, composants de base header/footer/button/card)
-3. Migration DB : enum role, tables, RLS, trigger auto-création profil + role à l'inscription
-4. Auth : pages inscription/connexion Consultant et Entreprise (création du bon profil selon flux)
-5. Landing publique + landings portails
-6. Dashboard Consultant + détail projet + page Indicateurs (Recharts sur données réelles)
-7. Dashboard Entreprise + formulaire nouvelle demande + détail demande
-8. Module Messagerie (fil par demande, realtime optionnel)
-9. Responsive pass + polish UI
+## 4. Page « Mon Compte » — Entreprise
+
+Nouveau fichier `src/routes/entreprise/compte.tsx` (protégé par `AuthGuard` rôle entreprise) :
+- Charge `company_profiles` du user.
+- Formulaire : Nom de l'entreprise, Nom du contact, Email (lecture seule), Téléphone.
+- Bouton **Enregistrer** → `update` sur `company_profiles`.
+
+---
+
+## 5. Mise à jour des écrans existants liés à `specialty`
+
+- `src/routes/consultant/inscription.tsx` : insert utilise `specialties: form.specialty` (array) au lieu de `specialty: join(",")`.
+- Tout autre affichage de la spécialité côté consultant (dashboard, indicateurs) : remplacer `specialty` par `specialties.join(", ")` pour l'affichage.
+
+---
 
 ## Détails techniques
 
-- Validation formulaires : `zod` + `react-hook-form`
-- Graphiques : `recharts`
-- Realtime messages : Supabase Realtime sur `messages` (optionnel MVP)
-- Inscription : un seul `signUp` puis insertion dans `user_roles` + table profil correspondante (via trigger DB ou côté client après confirmation)
-- Pas de Google/Apple sign-in pour le MVP (email/mot de passe uniquement, comme spécifié)
-
-## Hors scope MVP
-
-- Upload de pièces jointes dans les messages
-- Notifications email
-- Admin global
-- Cycle projet avancé (table `projects` séparée)
+- Pas de nouveau composant lourd : DropdownMenu shadcn déjà disponible.
+- Routes ajoutées en `src/routes/consultant/compte.tsx` et `src/routes/entreprise/compte.tsx` (le `routeTree.gen.ts` se régénère automatiquement).
+- Aucune modification du schéma `company_profiles`.
+- La migration est non destructive jusqu'au DROP COLUMN (fait après backfill dans la même transaction).

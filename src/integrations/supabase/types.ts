@@ -48,7 +48,7 @@ export type Database = {
           first_name: string
           id: string
           last_name: string
-          specialty: string
+          specialties: string[]
           user_id: string
         }
         Insert: {
@@ -57,7 +57,7 @@ export type Database = {
           first_name: string
           id?: string
           last_name: string
-          specialty: string
+          specialties?: string[]
           user_id: string
         }
         Update: {
@@ -66,7 +66,7 @@ export type Database = {
           first_name?: string
           id?: string
           last_name?: string
-          specialty?: string
+          specialties?: string[]
           user_id?: string
         }
         Relationships: []

@@ -15,10 +15,12 @@ import { Route as ConsultantIndexRouteImport } from './routes/consultant/index'
 import { Route as EntrepriseInscriptionRouteImport } from './routes/entreprise/inscription'
 import { Route as EntrepriseDashboardRouteImport } from './routes/entreprise/dashboard'
 import { Route as EntrepriseConnexionRouteImport } from './routes/entreprise/connexion'
+import { Route as EntrepriseCompteRouteImport } from './routes/entreprise/compte'
 import { Route as ConsultantInscriptionRouteImport } from './routes/consultant/inscription'
 import { Route as ConsultantIndicateursRouteImport } from './routes/consultant/indicateurs'
 import { Route as ConsultantDashboardRouteImport } from './routes/consultant/dashboard'
 import { Route as ConsultantConnexionRouteImport } from './routes/consultant/connexion'
+import { Route as ConsultantCompteRouteImport } from './routes/consultant/compte'
 import { Route as EntrepriseDemandesNouvelleRouteImport } from './routes/entreprise/demandes.nouvelle'
 import { Route as EntrepriseDemandesIdRouteImport } from './routes/entreprise/demandes.$id'
 import { Route as ConsultantProjetsIdRouteImport } from './routes/consultant/projets.$id'
@@ -53,6 +55,11 @@ const EntrepriseConnexionRoute = EntrepriseConnexionRouteImport.update({
   path: '/entreprise/connexion',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EntrepriseCompteRoute = EntrepriseCompteRouteImport.update({
+  id: '/entreprise/compte',
+  path: '/entreprise/compte',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConsultantInscriptionRoute = ConsultantInscriptionRouteImport.update({
   id: '/consultant/inscription',
   path: '/consultant/inscription',
@@ -71,6 +78,11 @@ const ConsultantDashboardRoute = ConsultantDashboardRouteImport.update({
 const ConsultantConnexionRoute = ConsultantConnexionRouteImport.update({
   id: '/consultant/connexion',
   path: '/consultant/connexion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsultantCompteRoute = ConsultantCompteRouteImport.update({
+  id: '/consultant/compte',
+  path: '/consultant/compte',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EntrepriseDemandesNouvelleRoute =
@@ -92,10 +104,12 @@ const ConsultantProjetsIdRoute = ConsultantProjetsIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/consultant/compte': typeof ConsultantCompteRoute
   '/consultant/connexion': typeof ConsultantConnexionRoute
   '/consultant/dashboard': typeof ConsultantDashboardRoute
   '/consultant/indicateurs': typeof ConsultantIndicateursRoute
   '/consultant/inscription': typeof ConsultantInscriptionRoute
+  '/entreprise/compte': typeof EntrepriseCompteRoute
   '/entreprise/connexion': typeof EntrepriseConnexionRoute
   '/entreprise/dashboard': typeof EntrepriseDashboardRoute
   '/entreprise/inscription': typeof EntrepriseInscriptionRoute
@@ -107,10 +121,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/consultant/compte': typeof ConsultantCompteRoute
   '/consultant/connexion': typeof ConsultantConnexionRoute
   '/consultant/dashboard': typeof ConsultantDashboardRoute
   '/consultant/indicateurs': typeof ConsultantIndicateursRoute
   '/consultant/inscription': typeof ConsultantInscriptionRoute
+  '/entreprise/compte': typeof EntrepriseCompteRoute
   '/entreprise/connexion': typeof EntrepriseConnexionRoute
   '/entreprise/dashboard': typeof EntrepriseDashboardRoute
   '/entreprise/inscription': typeof EntrepriseInscriptionRoute
@@ -123,10 +139,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/consultant/compte': typeof ConsultantCompteRoute
   '/consultant/connexion': typeof ConsultantConnexionRoute
   '/consultant/dashboard': typeof ConsultantDashboardRoute
   '/consultant/indicateurs': typeof ConsultantIndicateursRoute
   '/consultant/inscription': typeof ConsultantInscriptionRoute
+  '/entreprise/compte': typeof EntrepriseCompteRoute
   '/entreprise/connexion': typeof EntrepriseConnexionRoute
   '/entreprise/dashboard': typeof EntrepriseDashboardRoute
   '/entreprise/inscription': typeof EntrepriseInscriptionRoute
@@ -140,10 +158,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/consultant/compte'
     | '/consultant/connexion'
     | '/consultant/dashboard'
     | '/consultant/indicateurs'
     | '/consultant/inscription'
+    | '/entreprise/compte'
     | '/entreprise/connexion'
     | '/entreprise/dashboard'
     | '/entreprise/inscription'
@@ -155,10 +175,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/consultant/compte'
     | '/consultant/connexion'
     | '/consultant/dashboard'
     | '/consultant/indicateurs'
     | '/consultant/inscription'
+    | '/entreprise/compte'
     | '/entreprise/connexion'
     | '/entreprise/dashboard'
     | '/entreprise/inscription'
@@ -170,10 +192,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/consultant/compte'
     | '/consultant/connexion'
     | '/consultant/dashboard'
     | '/consultant/indicateurs'
     | '/consultant/inscription'
+    | '/entreprise/compte'
     | '/entreprise/connexion'
     | '/entreprise/dashboard'
     | '/entreprise/inscription'
@@ -186,10 +210,12 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConsultantCompteRoute: typeof ConsultantCompteRoute
   ConsultantConnexionRoute: typeof ConsultantConnexionRoute
   ConsultantDashboardRoute: typeof ConsultantDashboardRoute
   ConsultantIndicateursRoute: typeof ConsultantIndicateursRoute
   ConsultantInscriptionRoute: typeof ConsultantInscriptionRoute
+  EntrepriseCompteRoute: typeof EntrepriseCompteRoute
   EntrepriseConnexionRoute: typeof EntrepriseConnexionRoute
   EntrepriseDashboardRoute: typeof EntrepriseDashboardRoute
   EntrepriseInscriptionRoute: typeof EntrepriseInscriptionRoute
@@ -244,6 +270,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EntrepriseConnexionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/entreprise/compte': {
+      id: '/entreprise/compte'
+      path: '/entreprise/compte'
+      fullPath: '/entreprise/compte'
+      preLoaderRoute: typeof EntrepriseCompteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/consultant/inscription': {
       id: '/consultant/inscription'
       path: '/consultant/inscription'
@@ -272,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConsultantConnexionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/consultant/compte': {
+      id: '/consultant/compte'
+      path: '/consultant/compte'
+      fullPath: '/consultant/compte'
+      preLoaderRoute: typeof ConsultantCompteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/entreprise/demandes/nouvelle': {
       id: '/entreprise/demandes/nouvelle'
       path: '/entreprise/demandes/nouvelle'
@@ -298,10 +338,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConsultantCompteRoute: ConsultantCompteRoute,
   ConsultantConnexionRoute: ConsultantConnexionRoute,
   ConsultantDashboardRoute: ConsultantDashboardRoute,
   ConsultantIndicateursRoute: ConsultantIndicateursRoute,
   ConsultantInscriptionRoute: ConsultantInscriptionRoute,
+  EntrepriseCompteRoute: EntrepriseCompteRoute,
   EntrepriseConnexionRoute: EntrepriseConnexionRoute,
   EntrepriseDashboardRoute: EntrepriseDashboardRoute,
   EntrepriseInscriptionRoute: EntrepriseInscriptionRoute,
@@ -314,13 +356,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
