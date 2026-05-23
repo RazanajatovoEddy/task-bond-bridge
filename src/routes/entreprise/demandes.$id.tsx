@@ -5,6 +5,7 @@ import { AuthGuard } from "@/components/auth-guard";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { useAuth } from "@/hooks/use-auth";
 import { MessageThread } from "@/components/message-thread";
+import { ProjectDocuments } from "@/components/project-documents";
 import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/entreprise/demandes/$id")({
@@ -93,6 +94,15 @@ function DemandeDetail() {
             Description
           </h2>
           <p className="mt-3 whitespace-pre-wrap text-sm">{req.description}</p>
+        </div>
+
+        <div className="mt-10">
+          <ProjectDocuments
+            requestId={req.id}
+            currentUserId={user.id}
+            canUpload
+            allowConfidential
+          />
         </div>
 
         <div className="mt-10">

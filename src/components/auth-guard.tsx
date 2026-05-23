@@ -15,15 +15,23 @@ export function AuthGuard({
   useEffect(() => {
     if (loading) return;
     if (!user) {
-      navigate({
-        to: requiredRole === "consultant" ? "/consultant/connexion" : "/entreprise/connexion",
-      });
+      const target =
+        requiredRole === "consultant"
+          ? "/consultant/connexion"
+          : requiredRole === "entreprise"
+            ? "/entreprise/connexion"
+            : "/entreprise/connexion";
+      navigate({ to: target });
       return;
     }
     if (role && role !== requiredRole) {
-      navigate({
-        to: role === "consultant" ? "/consultant/dashboard" : "/entreprise/dashboard",
-      });
+      const fallback =
+        role === "admin"
+          ? "/admin"
+          : role === "consultant"
+            ? "/consultant/dashboard"
+            : "/entreprise/dashboard";
+      navigate({ to: fallback });
     }
   }, [user, role, loading, requiredRole, navigate]);
 

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EntrepriseIndexRouteImport } from './routes/entreprise/index'
 import { Route as ConsultantIndexRouteImport } from './routes/consultant/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as EntrepriseInscriptionRouteImport } from './routes/entreprise/inscription'
 import { Route as EntrepriseDashboardRouteImport } from './routes/entreprise/dashboard'
 import { Route as EntrepriseConnexionRouteImport } from './routes/entreprise/connexion'
@@ -21,9 +22,15 @@ import { Route as ConsultantIndicateursRouteImport } from './routes/consultant/i
 import { Route as ConsultantDashboardRouteImport } from './routes/consultant/dashboard'
 import { Route as ConsultantConnexionRouteImport } from './routes/consultant/connexion'
 import { Route as ConsultantCompteRouteImport } from './routes/consultant/compte'
+import { Route as AdminProjetsRouteImport } from './routes/admin/projets'
+import { Route as AdminEntreprisesRouteImport } from './routes/admin/entreprises'
+import { Route as AdminConsultantsRouteImport } from './routes/admin/consultants'
 import { Route as EntrepriseDemandesNouvelleRouteImport } from './routes/entreprise/demandes.nouvelle'
 import { Route as EntrepriseDemandesIdRouteImport } from './routes/entreprise/demandes.$id'
 import { Route as ConsultantProjetsIdRouteImport } from './routes/consultant/projets.$id'
+import { Route as AdminProjetsIdRouteImport } from './routes/admin/projets.$id'
+import { Route as AdminEntreprisesIdRouteImport } from './routes/admin/entreprises.$id'
+import { Route as AdminConsultantsIdRouteImport } from './routes/admin/consultants.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -38,6 +45,11 @@ const EntrepriseIndexRoute = EntrepriseIndexRouteImport.update({
 const ConsultantIndexRoute = ConsultantIndexRouteImport.update({
   id: '/consultant/',
   path: '/consultant/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EntrepriseInscriptionRoute = EntrepriseInscriptionRouteImport.update({
@@ -85,6 +97,21 @@ const ConsultantCompteRoute = ConsultantCompteRouteImport.update({
   path: '/consultant/compte',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminProjetsRoute = AdminProjetsRouteImport.update({
+  id: '/admin/projets',
+  path: '/admin/projets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminEntreprisesRoute = AdminEntreprisesRouteImport.update({
+  id: '/admin/entreprises',
+  path: '/admin/entreprises',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminConsultantsRoute = AdminConsultantsRouteImport.update({
+  id: '/admin/consultants',
+  path: '/admin/consultants',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EntrepriseDemandesNouvelleRoute =
   EntrepriseDemandesNouvelleRouteImport.update({
     id: '/entreprise/demandes/nouvelle',
@@ -101,9 +128,27 @@ const ConsultantProjetsIdRoute = ConsultantProjetsIdRouteImport.update({
   path: '/consultant/projets/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminProjetsIdRoute = AdminProjetsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminProjetsRoute,
+} as any)
+const AdminEntreprisesIdRoute = AdminEntreprisesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminEntreprisesRoute,
+} as any)
+const AdminConsultantsIdRoute = AdminConsultantsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminConsultantsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin/consultants': typeof AdminConsultantsRouteWithChildren
+  '/admin/entreprises': typeof AdminEntreprisesRouteWithChildren
+  '/admin/projets': typeof AdminProjetsRouteWithChildren
   '/consultant/compte': typeof ConsultantCompteRoute
   '/consultant/connexion': typeof ConsultantConnexionRoute
   '/consultant/dashboard': typeof ConsultantDashboardRoute
@@ -113,14 +158,21 @@ export interface FileRoutesByFullPath {
   '/entreprise/connexion': typeof EntrepriseConnexionRoute
   '/entreprise/dashboard': typeof EntrepriseDashboardRoute
   '/entreprise/inscription': typeof EntrepriseInscriptionRoute
+  '/admin/': typeof AdminIndexRoute
   '/consultant/': typeof ConsultantIndexRoute
   '/entreprise/': typeof EntrepriseIndexRoute
+  '/admin/consultants/$id': typeof AdminConsultantsIdRoute
+  '/admin/entreprises/$id': typeof AdminEntreprisesIdRoute
+  '/admin/projets/$id': typeof AdminProjetsIdRoute
   '/consultant/projets/$id': typeof ConsultantProjetsIdRoute
   '/entreprise/demandes/$id': typeof EntrepriseDemandesIdRoute
   '/entreprise/demandes/nouvelle': typeof EntrepriseDemandesNouvelleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin/consultants': typeof AdminConsultantsRouteWithChildren
+  '/admin/entreprises': typeof AdminEntreprisesRouteWithChildren
+  '/admin/projets': typeof AdminProjetsRouteWithChildren
   '/consultant/compte': typeof ConsultantCompteRoute
   '/consultant/connexion': typeof ConsultantConnexionRoute
   '/consultant/dashboard': typeof ConsultantDashboardRoute
@@ -130,8 +182,12 @@ export interface FileRoutesByTo {
   '/entreprise/connexion': typeof EntrepriseConnexionRoute
   '/entreprise/dashboard': typeof EntrepriseDashboardRoute
   '/entreprise/inscription': typeof EntrepriseInscriptionRoute
+  '/admin': typeof AdminIndexRoute
   '/consultant': typeof ConsultantIndexRoute
   '/entreprise': typeof EntrepriseIndexRoute
+  '/admin/consultants/$id': typeof AdminConsultantsIdRoute
+  '/admin/entreprises/$id': typeof AdminEntreprisesIdRoute
+  '/admin/projets/$id': typeof AdminProjetsIdRoute
   '/consultant/projets/$id': typeof ConsultantProjetsIdRoute
   '/entreprise/demandes/$id': typeof EntrepriseDemandesIdRoute
   '/entreprise/demandes/nouvelle': typeof EntrepriseDemandesNouvelleRoute
@@ -139,6 +195,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin/consultants': typeof AdminConsultantsRouteWithChildren
+  '/admin/entreprises': typeof AdminEntreprisesRouteWithChildren
+  '/admin/projets': typeof AdminProjetsRouteWithChildren
   '/consultant/compte': typeof ConsultantCompteRoute
   '/consultant/connexion': typeof ConsultantConnexionRoute
   '/consultant/dashboard': typeof ConsultantDashboardRoute
@@ -148,8 +207,12 @@ export interface FileRoutesById {
   '/entreprise/connexion': typeof EntrepriseConnexionRoute
   '/entreprise/dashboard': typeof EntrepriseDashboardRoute
   '/entreprise/inscription': typeof EntrepriseInscriptionRoute
+  '/admin/': typeof AdminIndexRoute
   '/consultant/': typeof ConsultantIndexRoute
   '/entreprise/': typeof EntrepriseIndexRoute
+  '/admin/consultants/$id': typeof AdminConsultantsIdRoute
+  '/admin/entreprises/$id': typeof AdminEntreprisesIdRoute
+  '/admin/projets/$id': typeof AdminProjetsIdRoute
   '/consultant/projets/$id': typeof ConsultantProjetsIdRoute
   '/entreprise/demandes/$id': typeof EntrepriseDemandesIdRoute
   '/entreprise/demandes/nouvelle': typeof EntrepriseDemandesNouvelleRoute
@@ -158,6 +221,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin/consultants'
+    | '/admin/entreprises'
+    | '/admin/projets'
     | '/consultant/compte'
     | '/consultant/connexion'
     | '/consultant/dashboard'
@@ -167,14 +233,21 @@ export interface FileRouteTypes {
     | '/entreprise/connexion'
     | '/entreprise/dashboard'
     | '/entreprise/inscription'
+    | '/admin/'
     | '/consultant/'
     | '/entreprise/'
+    | '/admin/consultants/$id'
+    | '/admin/entreprises/$id'
+    | '/admin/projets/$id'
     | '/consultant/projets/$id'
     | '/entreprise/demandes/$id'
     | '/entreprise/demandes/nouvelle'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin/consultants'
+    | '/admin/entreprises'
+    | '/admin/projets'
     | '/consultant/compte'
     | '/consultant/connexion'
     | '/consultant/dashboard'
@@ -184,14 +257,21 @@ export interface FileRouteTypes {
     | '/entreprise/connexion'
     | '/entreprise/dashboard'
     | '/entreprise/inscription'
+    | '/admin'
     | '/consultant'
     | '/entreprise'
+    | '/admin/consultants/$id'
+    | '/admin/entreprises/$id'
+    | '/admin/projets/$id'
     | '/consultant/projets/$id'
     | '/entreprise/demandes/$id'
     | '/entreprise/demandes/nouvelle'
   id:
     | '__root__'
     | '/'
+    | '/admin/consultants'
+    | '/admin/entreprises'
+    | '/admin/projets'
     | '/consultant/compte'
     | '/consultant/connexion'
     | '/consultant/dashboard'
@@ -201,8 +281,12 @@ export interface FileRouteTypes {
     | '/entreprise/connexion'
     | '/entreprise/dashboard'
     | '/entreprise/inscription'
+    | '/admin/'
     | '/consultant/'
     | '/entreprise/'
+    | '/admin/consultants/$id'
+    | '/admin/entreprises/$id'
+    | '/admin/projets/$id'
     | '/consultant/projets/$id'
     | '/entreprise/demandes/$id'
     | '/entreprise/demandes/nouvelle'
@@ -210,6 +294,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminConsultantsRoute: typeof AdminConsultantsRouteWithChildren
+  AdminEntreprisesRoute: typeof AdminEntreprisesRouteWithChildren
+  AdminProjetsRoute: typeof AdminProjetsRouteWithChildren
   ConsultantCompteRoute: typeof ConsultantCompteRoute
   ConsultantConnexionRoute: typeof ConsultantConnexionRoute
   ConsultantDashboardRoute: typeof ConsultantDashboardRoute
@@ -219,6 +306,7 @@ export interface RootRouteChildren {
   EntrepriseConnexionRoute: typeof EntrepriseConnexionRoute
   EntrepriseDashboardRoute: typeof EntrepriseDashboardRoute
   EntrepriseInscriptionRoute: typeof EntrepriseInscriptionRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   ConsultantIndexRoute: typeof ConsultantIndexRoute
   EntrepriseIndexRoute: typeof EntrepriseIndexRoute
   ConsultantProjetsIdRoute: typeof ConsultantProjetsIdRoute
@@ -247,6 +335,13 @@ declare module '@tanstack/react-router' {
       path: '/consultant'
       fullPath: '/consultant/'
       preLoaderRoute: typeof ConsultantIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/entreprise/inscription': {
@@ -312,6 +407,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConsultantCompteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/projets': {
+      id: '/admin/projets'
+      path: '/admin/projets'
+      fullPath: '/admin/projets'
+      preLoaderRoute: typeof AdminProjetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/entreprises': {
+      id: '/admin/entreprises'
+      path: '/admin/entreprises'
+      fullPath: '/admin/entreprises'
+      preLoaderRoute: typeof AdminEntreprisesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/consultants': {
+      id: '/admin/consultants'
+      path: '/admin/consultants'
+      fullPath: '/admin/consultants'
+      preLoaderRoute: typeof AdminConsultantsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/entreprise/demandes/nouvelle': {
       id: '/entreprise/demandes/nouvelle'
       path: '/entreprise/demandes/nouvelle'
@@ -333,11 +449,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConsultantProjetsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/projets/$id': {
+      id: '/admin/projets/$id'
+      path: '/$id'
+      fullPath: '/admin/projets/$id'
+      preLoaderRoute: typeof AdminProjetsIdRouteImport
+      parentRoute: typeof AdminProjetsRoute
+    }
+    '/admin/entreprises/$id': {
+      id: '/admin/entreprises/$id'
+      path: '/$id'
+      fullPath: '/admin/entreprises/$id'
+      preLoaderRoute: typeof AdminEntreprisesIdRouteImport
+      parentRoute: typeof AdminEntreprisesRoute
+    }
+    '/admin/consultants/$id': {
+      id: '/admin/consultants/$id'
+      path: '/$id'
+      fullPath: '/admin/consultants/$id'
+      preLoaderRoute: typeof AdminConsultantsIdRouteImport
+      parentRoute: typeof AdminConsultantsRoute
+    }
   }
 }
 
+interface AdminConsultantsRouteChildren {
+  AdminConsultantsIdRoute: typeof AdminConsultantsIdRoute
+}
+
+const AdminConsultantsRouteChildren: AdminConsultantsRouteChildren = {
+  AdminConsultantsIdRoute: AdminConsultantsIdRoute,
+}
+
+const AdminConsultantsRouteWithChildren =
+  AdminConsultantsRoute._addFileChildren(AdminConsultantsRouteChildren)
+
+interface AdminEntreprisesRouteChildren {
+  AdminEntreprisesIdRoute: typeof AdminEntreprisesIdRoute
+}
+
+const AdminEntreprisesRouteChildren: AdminEntreprisesRouteChildren = {
+  AdminEntreprisesIdRoute: AdminEntreprisesIdRoute,
+}
+
+const AdminEntreprisesRouteWithChildren =
+  AdminEntreprisesRoute._addFileChildren(AdminEntreprisesRouteChildren)
+
+interface AdminProjetsRouteChildren {
+  AdminProjetsIdRoute: typeof AdminProjetsIdRoute
+}
+
+const AdminProjetsRouteChildren: AdminProjetsRouteChildren = {
+  AdminProjetsIdRoute: AdminProjetsIdRoute,
+}
+
+const AdminProjetsRouteWithChildren = AdminProjetsRoute._addFileChildren(
+  AdminProjetsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminConsultantsRoute: AdminConsultantsRouteWithChildren,
+  AdminEntreprisesRoute: AdminEntreprisesRouteWithChildren,
+  AdminProjetsRoute: AdminProjetsRouteWithChildren,
   ConsultantCompteRoute: ConsultantCompteRoute,
   ConsultantConnexionRoute: ConsultantConnexionRoute,
   ConsultantDashboardRoute: ConsultantDashboardRoute,
@@ -347,6 +521,7 @@ const rootRouteChildren: RootRouteChildren = {
   EntrepriseConnexionRoute: EntrepriseConnexionRoute,
   EntrepriseDashboardRoute: EntrepriseDashboardRoute,
   EntrepriseInscriptionRoute: EntrepriseInscriptionRoute,
+  AdminIndexRoute: AdminIndexRoute,
   ConsultantIndexRoute: ConsultantIndexRoute,
   EntrepriseIndexRoute: EntrepriseIndexRoute,
   ConsultantProjetsIdRoute: ConsultantProjetsIdRoute,
