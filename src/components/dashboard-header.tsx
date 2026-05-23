@@ -1,9 +1,17 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useAuth, type AppRole } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 
 export function DashboardHeader({ role }: { role: AppRole }) {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -11,11 +19,13 @@ export function DashboardHeader({ role }: { role: AppRole }) {
     navigate({ to: "/" });
   };
 
+  const accountPath = role === "consultant" ? "/consultant/compte" : "/entreprise/compte";
+
   return (
     <header className="border-b border-border/60 bg-background">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link to="/" className="text-sm font-semibold tracking-tight">
-          Portail Agence IA
+          Portail Agence
         </Link>
         <nav className="flex items-center gap-6 text-sm">
           {role === "consultant" ? (
@@ -40,9 +50,21 @@ export function DashboardHeader({ role }: { role: AppRole }) {
               </Link>
             </>
           )}
-          <Button variant="ghost" size="sm" onClick={handleSignOut}>
-            Déconnexion
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="gap-1">
+                <span className="max-w-[180px] truncate">{user?.email ?? "Mon compte"}</span>
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link to={accountPath}>Mon Compte</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleSignOut}>Déconnexion</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
       </div>
     </header>
