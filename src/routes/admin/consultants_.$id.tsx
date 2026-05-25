@@ -10,7 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/admin/consultants/$id")({
+export const Route = createFileRoute("/admin/consultants_/$id")({
   component: () => (
     <AuthGuard role="admin">
       <ConsultantDetail />
