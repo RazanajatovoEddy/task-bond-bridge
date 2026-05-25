@@ -34,9 +34,11 @@ export function useAuth() {
       .from("user_roles")
       .select("role")
       .eq("user_id", user.id)
-      .maybeSingle()
       .then(({ data }) => {
-        setRole((data?.role as AppRole) ?? null);
+        const roles = (data ?? []).map((r) => r.role as AppRole);
+        const priority: AppRole[] = ["admin", "consultant", "entreprise"];
+        const active = priority.find((r) => roles.includes(r)) ?? null;
+        setRole(active);
         setLoading(false);
       });
   }, [user]);
