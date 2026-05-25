@@ -10,7 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/admin/entreprises/$id")({
+export const Route = createFileRoute("/admin/entreprises_/$id")({
   component: () => (
     <AuthGuard role="admin">
       <EntrepriseDetail />
