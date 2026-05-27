@@ -19,14 +19,15 @@ export const Route = createFileRoute("/admin/consultants_/$id")({
 });
 
 const ALL_SPECIALTIES = [
-  "IA Générative",
-  "Data Engineering",
-  "Data Science",
-  "Automatisation",
-  "Développement",
-  "Cloud",
-  "MLOps",
-  "Conseil",
+  { value: "ia_generative", label: "IA Générative" },
+  { value: "data_engineering", label: "Data Engineering" },
+  { value: "data_science", label: "Data Science" },
+  { value: "automatisation", label: "Automatisation" },
+  { value: "developpement", label: "Développement" },
+  { value: "cloud", label: "Cloud" },
+  { value: "mlops", label: "MLOps" },
+  { value: "conseil", label: "Conseil" },
+  { value: "nocode", label: "No-code" },
 ];
 
 type Profile = {
