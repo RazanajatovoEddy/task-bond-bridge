@@ -10,10 +10,14 @@ import { SiteHeader } from "@/components/site-header";
 import { toast } from "sonner";
 
 const SPECIALTIES = [
-  { value: "automation", label: "Automatisation" },
-  { value: "dev", label: "Développement" },
-  { value: "data", label: "Data" },
-  { value: "ia", label: "IA" },
+  { value: "ia_generative", label: "IA Générative" },
+  { value: "data_engineering", label: "Data Engineering" },
+  { value: "data_science", label: "Data Science" },
+  { value: "automatisation", label: "Automatisation" },
+  { value: "developpement", label: "Développement" },
+  { value: "cloud", label: "Cloud" },
+  { value: "mlops", label: "MLOps" },
+  { value: "conseil", label: "Conseil" },
   { value: "nocode", label: "No-code" },
 ];
 
