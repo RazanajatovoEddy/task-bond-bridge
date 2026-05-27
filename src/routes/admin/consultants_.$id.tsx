@@ -19,14 +19,15 @@ export const Route = createFileRoute("/admin/consultants_/$id")({
 });
 
 const ALL_SPECIALTIES = [
-  "IA Générative",
-  "Data Engineering",
-  "Data Science",
-  "Automatisation",
-  "Développement",
-  "Cloud",
-  "MLOps",
-  "Conseil",
+  { value: "ia_generative", label: "IA Générative" },
+  { value: "data_engineering", label: "Data Engineering" },
+  { value: "data_science", label: "Data Science" },
+  { value: "automatisation", label: "Automatisation" },
+  { value: "developpement", label: "Développement" },
+  { value: "cloud", label: "Cloud" },
+  { value: "mlops", label: "MLOps" },
+  { value: "conseil", label: "Conseil" },
+  { value: "nocode", label: "No-code" },
 ];
 
 type Profile = {
@@ -116,12 +117,12 @@ function ConsultantDetail() {
             <Label>Spécialités</Label>
             <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
               {ALL_SPECIALTIES.map((s) => (
-                <label key={s} className="flex items-center gap-2 text-sm">
+                <label key={s.value} className="flex items-center gap-2 text-sm">
                   <Checkbox
-                    checked={p.specialties.includes(s)}
-                    onCheckedChange={() => toggleSpec(s)}
+                    checked={p.specialties.includes(s.value)}
+                    onCheckedChange={() => toggleSpec(s.value)}
                   />
-                  {s}
+                  {s.label}
                 </label>
               ))}
             </div>
