@@ -39,33 +39,26 @@ function EntrepriseSignup() {
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
-      options: { emailRedirectTo: `${window.location.origin}/entreprise/dashboard` },
+      options: {
+        emailRedirectTo: `${window.location.origin}/entreprise/dashboard`,
+        data: {
+          signup_role: "entreprise",
+          company_name: form.companyName,
+          contact_name: form.contactName,
+          phone: form.phone || null,
+        },
+      },
     });
-    if (error || !data.user) {
-      setLoading(false);
-      toast.error(error?.message ?? "Erreur lors de l'inscription");
-      return;
-    }
-    const userId = data.user.id;
-    const [{ error: e1 }, { error: e2 }] = await Promise.all([
-      supabase.from("user_roles").insert({ user_id: userId, role: "entreprise" }),
-      supabase.from("company_profiles").insert({
-        user_id: userId,
-        company_name: form.companyName,
-        contact_name: form.contactName,
-        phone: form.phone || null,
-      }),
-    ]);
     setLoading(false);
-    if (e1 || e2) {
-      toast.error("Compte créé mais profil incomplet. Reconnectez-vous.");
+    if (error) {
+      toast.error(error.message);
       return;
     }
-    toast.success("Compte créé");
-    navigate({ to: "/entreprise/dashboard" });
+    toast.success("Compte créé. Vérifiez votre email pour confirmer.");
+    navigate({ to: "/entreprise/connexion" });
   };
 
   return (

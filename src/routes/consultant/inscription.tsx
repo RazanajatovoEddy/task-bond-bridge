@@ -66,34 +66,27 @@ function ConsultantSignup() {
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
-      options: { emailRedirectTo: `${window.location.origin}/consultant/dashboard` },
+      options: {
+        emailRedirectTo: `${window.location.origin}/consultant/dashboard`,
+        data: {
+          signup_role: "consultant",
+          first_name: form.firstName,
+          last_name: form.lastName,
+          specialties: form.specialty,
+          availability: form.availability || null,
+        },
+      },
     });
-    if (error || !data.user) {
-      setLoading(false);
-      toast.error(error?.message ?? "Erreur lors de l'inscription");
-      return;
-    }
-    const userId = data.user.id;
-    const [{ error: e1 }, { error: e2 }] = await Promise.all([
-      supabase.from("user_roles").insert({ user_id: userId, role: "consultant" }),
-      supabase.from("consultant_profiles").insert({
-        user_id: userId,
-        first_name: form.firstName,
-        last_name: form.lastName,
-        specialties: form.specialty,
-        availability: form.availability || null,
-      }),
-    ]);
     setLoading(false);
-    if (e1 || e2) {
-      toast.error("Compte créé mais profil incomplet. Reconnectez-vous.");
+    if (error) {
+      toast.error(error.message);
       return;
     }
-    toast.success("Compte créé");
-    navigate({ to: "/consultant/dashboard" });
+    toast.success("Compte créé. Vérifiez votre email pour confirmer.");
+    navigate({ to: "/consultant/connexion" });
   };
 
   return (
