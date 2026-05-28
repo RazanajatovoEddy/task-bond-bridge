@@ -1,35 +1,25 @@
-# Correction du chargement du compte consultant
+## Objectif
+Désactiver l'auto-confirmation des emails pour que Lovable Cloud envoie un mail de confirmation à chaque inscription (consultant et entreprise).
 
-## Problème identifié
+## Étapes
 
-Le compte `e.razanajatovo@gmail.com` possède désormais **deux rôles** dans `user_roles` : `consultant` ET `admin` (cf. réponse réseau `/rest/v1/user_roles` qui renvoie `[{"role":"consultant"},{"role":"admin"}]`).
+1. **Désactiver `auto_confirm_email`** via la configuration Auth de Lovable Cloud (`configure_auth` avec `auto_confirm_email: false`). Les autres paramètres restent inchangés :
+   - `disable_signup: false` (les inscriptions restent ouvertes)
+   - `external_anonymous_users_enabled: false`
+   - `password_hibp_enabled: true` (protection mots de passe compromis recommandée)
 
-Or, dans `src/hooks/use-auth.tsx`, on appelle :
+2. **Pas de changement de code** : les écrans d'inscription consultant et entreprise appellent déjà `supabase.auth.signUp(...)` avec `emailRedirectTo` correctement configuré. Une fois l'auto-confirmation désactivée, Lovable Cloud enverra automatiquement le mail de confirmation.
 
-```ts
-.from("user_roles").select("role").eq("user_id", user.id).maybeSingle()
-```
+3. **Test à effectuer après application** :
+   - Créer un nouveau compte test avec une adresse réelle
+   - Vérifier la réception du mail (boîte de réception + spam/promotions)
+   - Cliquer sur le lien → redirection vers `/consultant/dashboard` ou `/entreprise/dashboard`
 
-`maybeSingle()` **échoue dès qu'il y a plus d'une ligne** → `data` est `null`, `role` reste `null`, et `AuthGuard` redirige / bloque sur "Chargement…" indéfiniment. Le portail consultant ne se charge donc plus.
+## Limites connues
 
-## Correctif
+- Les mails sont envoyés depuis le domaine par défaut de Lovable Cloud → risque élevé d'arriver en **spam/promotions**.
+- Les comptes déjà créés (ex : `zh_rabefitseheno@yahoo.com`) ne recevront pas rétroactivement un mail ; ils sont déjà confirmés.
 
-### 1. `src/hooks/use-auth.tsx`
-- Remplacer `.maybeSingle()` par un `select` qui retourne toutes les lignes.
-- Choisir le rôle "actif" avec une priorité claire :
-  1. `admin` (si présent) → accès `/admin`
-  2. sinon `consultant`
-  3. sinon `entreprise`
-- Ainsi un utilisateur cumulant `consultant + admin` est traité comme admin (et la redirection vers `/admin` reste cohérente avec `AuthGuard`).
+## Étape suivante recommandée (optionnelle, à faire après validation)
 
-### 2. (Optionnel mais recommandé) Permettre la bascule
-Pour ce projet, on garde simple : un seul rôle "actif" à la fois selon la priorité ci-dessus. Pas d'UI de switch dans cette itération.
-
-### 3. Vérification
-Après correctif :
-- `e.razanajatovo@gmail.com` → connecté → role = `admin` → redirigé vers `/admin` (comportement attendu).
-- Si tu veux te connecter en tant que consultant avec ce même email, il faudra retirer le rôle `consultant` OU `admin` côté base. Je peux le faire si tu préfères garder ce compte purement admin.
-
-## Question
-
-Veux-tu que je supprime aussi le rôle `consultant` de `e.razanajatovo@gmail.com` (pour qu'il soit uniquement admin), ou bien on garde les deux rôles avec la priorité admin ?
+Si les mails arrivent en spam ou ne sont pas reçus, passer à l'**option B** : configurer un domaine d'envoi personnalisé (ex : `notify.votredomaine.com`) + templates d'emails brandés aux couleurs de l'app. Cela améliore drastiquement la délivrabilité.
