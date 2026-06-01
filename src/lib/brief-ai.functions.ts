@@ -33,6 +33,7 @@ Une phrase qui capture le résultat business visé.
 Reste factuel, évite le jargon marketing, n'invente pas de chiffres précis si non fournis.`;
 
 export const generateBrief = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => inputSchema.parse(data))
   .handler(async ({ data }) => {
     const apiKey = process.env.LOVABLE_API_KEY;
