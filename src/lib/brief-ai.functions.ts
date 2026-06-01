@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const inputSchema = z.object({
   title: z.string().trim().min(1).max(200),
@@ -32,6 +33,7 @@ Une phrase qui capture le résultat business visé.
 Reste factuel, évite le jargon marketing, n'invente pas de chiffres précis si non fournis.`;
 
 export const generateBrief = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => inputSchema.parse(data))
   .handler(async ({ data }) => {
     const apiKey = process.env.LOVABLE_API_KEY;
