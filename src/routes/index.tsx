@@ -118,7 +118,7 @@ function Index() {
             </div>
           </div>
 
-          <div className="md:col-span-7">
+          <div className="md:col-span-8">
             <h1 className="text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
               Déléguez vos opérations<br />à la nouvelle génération<br />d'experts boostés par l'IA
             </h1>
