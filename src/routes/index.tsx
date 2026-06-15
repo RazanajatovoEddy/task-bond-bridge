@@ -120,7 +120,7 @@ function Index() {
 
           <div className="md:col-span-8">
             <h1 className="text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
-              Externalisez vos opérations<br />à la génération<br />d'experts nés avec l'IA
+              Externalisez vos opérations<br />à la nouvelle génération<br />d'experts nés avec l'IA
             </h1>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Link
