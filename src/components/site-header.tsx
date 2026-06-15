@@ -6,9 +6,12 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-10">
         <Link
           to="/"
-          className="rounded-md bg-accent px-4 py-2 text-xl font-bold tracking-tight text-accent-foreground"
+          className="relative rounded-md bg-accent px-6 py-3 text-4xl font-bold tracking-tight text-accent-foreground"
         >
           OpsIA
+          <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full border-2 border-accent-foreground text-[10px] font-bold leading-none text-accent-foreground">
+            R
+          </span>
         </Link>
         <nav className="hidden items-center gap-8 text-lg font-bold md:flex">
           <Link to="/entreprise" className="text-foreground/70 hover:text-foreground">
