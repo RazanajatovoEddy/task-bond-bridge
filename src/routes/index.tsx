@@ -119,8 +119,8 @@ function Index() {
           </div>
 
           <div className="md:col-span-7">
-            <h1 className="text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl lg:text-8xl">
-              Concevoir<br />des solutions IA<br />qui passent<br />à l'échelle
+            <h1 className="text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
+              Déléguez vos opérations<br />à la nouvelle génération<br />d'experts boostés par l'IA
             </h1>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Link
