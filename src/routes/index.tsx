@@ -102,7 +102,7 @@ function Index() {
       <main className="mx-auto max-w-7xl px-6">
         {/* HERO */}
         <section className="grid gap-12 py-20 md:grid-cols-12 md:py-32">
-          <div className="md:col-span-5">
+          <div className="md:col-span-4">
             <p className="text-xs uppercase tracking-widest text-muted-foreground">
               Mission // Agence
             </p>
@@ -118,7 +118,7 @@ function Index() {
             </div>
           </div>
 
-          <div className="md:col-span-7">
+          <div className="md:col-span-8">
             <h1 className="text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
               Déléguez vos opérations<br />à la nouvelle génération<br />d'experts boostés par l'IA
             </h1>
