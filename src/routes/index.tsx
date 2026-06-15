@@ -102,7 +102,7 @@ function Index() {
       <main className="mx-auto max-w-7xl px-6">
         {/* HERO */}
         <section className="grid gap-12 py-20 md:grid-cols-12 md:py-32">
-          <div className="md:col-span-5">
+          <div className="md:col-span-4">
             <p className="text-xs uppercase tracking-widest text-muted-foreground">
               Mission // Agence
             </p>
