@@ -9,10 +9,10 @@ export function SiteHeader() {
         </Link>
         <nav className="hidden items-center gap-8 text-sm md:flex">
           <Link to="/consultant" className="text-foreground/70 hover:text-foreground">
-            Consultants
+            Espace Consultants
           </Link>
           <Link to="/entreprise" className="text-foreground/70 hover:text-foreground">
-            Entreprises
+            Espace Entreprises
           </Link>
         </nav>
         <div className="flex items-center gap-3">
