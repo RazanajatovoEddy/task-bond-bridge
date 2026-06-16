@@ -8,7 +8,7 @@ export function SiteHeader() {
           to="/"
           className="relative rounded-md bg-accent px-6 py-3 text-4xl font-bold tracking-tight text-accent-foreground"
         >
-          OpsIA<sup className="ml-0.5 text-sm font-bold">®</sup>
+          OpsI<span className="relative inline-block">A<sup className="absolute -right-2.5 -top-1.5 text-xs font-bold">®</sup></span>
         </Link>
         <nav className="hidden items-center gap-8 text-lg font-bold md:flex">
           <Link to="/entreprise" className="text-foreground/70 hover:text-foreground">
