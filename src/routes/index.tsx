@@ -109,11 +109,10 @@ function Index() {
             <div className="mt-12 max-w-sm rounded-md bg-accent p-8">
               <p className="text-sm font-semibold">forge®</p>
               <p className="mt-4 text-sm leading-relaxed">
-                Nous concevons et déployons l'IA, l'automatisation et les applications
-                sur mesure pour les équipes qui veulent aller vite.
+                L'humain avant tout
               </p>
               <p className="mt-6 text-sm font-semibold">
-                De l'idée au déploiement en moins de 90 jours.
+                Nos consultants son.
               </p>
             </div>
           </div>
