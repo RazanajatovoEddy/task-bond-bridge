@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "sdk_version": "0.24.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://epbhkgcniabxywzpchll.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "opsia-mcp",
+      "version": "0.1.0",
+      "title": "OpsIA — Portail Agence"
+    },
+    "tools": [
+      {
+        "name": "list_my_requests",
+        "title": "Lister mes demandes (entreprise)",
+        "description": "Liste les demandes (projets) créées par l'entreprise de l'utilisateur connecté. Retourne titre, type, statut, priorité, dates.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Nombre max de demandes (défaut 20)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_my_projects",
+        "title": "Lister mes projets (consultant)",
+        "description": "Liste les projets sur lesquels l'utilisateur connecté est affecté comme consultant. Retourne titre, type, statut, entreprise.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Nombre max de projets (défaut 20)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_project",
+        "title": "Détails d'un projet",
+        "description": "Récupère les détails d'un projet/demande par son ID. Les données confidentielles (budget, etc.) restent filtrées par RLS selon le rôle de l'utilisateur.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Identifiant UUID du projet/demande."
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "post_message",
+        "title": "Publier un message sur un projet",
+        "description": "Poste un message dans le fil de discussion d'un projet/demande. L'utilisateur doit être membre du projet ou l'entreprise propriétaire.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "request_id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "ID du projet/demande."
+            },
+            "content": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000,
+              "description": "Contenu du message."
+            }
+          },
+          "required": [
+            "request_id",
+            "content"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}

@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EntrepriseIndexRouteImport } from './routes/entreprise/index'
 import { Route as ConsultantIndexRouteImport } from './routes/consultant/index'
@@ -25,13 +26,22 @@ import { Route as ConsultantCompteRouteImport } from './routes/consultant/compte
 import { Route as AdminProjetsRouteImport } from './routes/admin/projets'
 import { Route as AdminEntreprisesRouteImport } from './routes/admin/entreprises'
 import { Route as AdminConsultantsRouteImport } from './routes/admin/consultants'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as EntrepriseDemandesNouvelleRouteImport } from './routes/entreprise/demandes.nouvelle'
 import { Route as EntrepriseDemandesIdRouteImport } from './routes/entreprise/demandes.$id'
 import { Route as ConsultantProjetsIdRouteImport } from './routes/consultant/projets.$id'
 import { Route as AdminProjetsIdRouteImport } from './routes/admin/projets_.$id'
 import { Route as AdminEntreprisesIdRouteImport } from './routes/admin/entreprises_.$id'
 import { Route as AdminConsultantsIdRouteImport } from './routes/admin/consultants_.$id'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -112,6 +122,18 @@ const AdminConsultantsRoute = AdminConsultantsRouteImport.update({
   path: '/admin/consultants',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const EntrepriseDemandesNouvelleRoute =
   EntrepriseDemandesNouvelleRouteImport.update({
     id: '/entreprise/demandes/nouvelle',
@@ -143,9 +165,23 @@ const AdminConsultantsIdRoute = AdminConsultantsIdRouteImport.update({
   path: '/admin/consultants/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/mcp': typeof McpRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/consultants': typeof AdminConsultantsRoute
   '/admin/entreprises': typeof AdminEntreprisesRoute
   '/admin/projets': typeof AdminProjetsRoute
@@ -161,6 +197,8 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/consultant/': typeof ConsultantIndexRoute
   '/entreprise/': typeof EntrepriseIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/consultants/$id': typeof AdminConsultantsIdRoute
   '/admin/entreprises/$id': typeof AdminEntreprisesIdRoute
   '/admin/projets/$id': typeof AdminProjetsIdRoute
@@ -170,6 +208,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/mcp': typeof McpRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/consultants': typeof AdminConsultantsRoute
   '/admin/entreprises': typeof AdminEntreprisesRoute
   '/admin/projets': typeof AdminProjetsRoute
@@ -185,6 +226,8 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/consultant': typeof ConsultantIndexRoute
   '/entreprise': typeof EntrepriseIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/consultants/$id': typeof AdminConsultantsIdRoute
   '/admin/entreprises/$id': typeof AdminEntreprisesIdRoute
   '/admin/projets/$id': typeof AdminProjetsIdRoute
@@ -195,6 +238,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/mcp': typeof McpRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/consultants': typeof AdminConsultantsRoute
   '/admin/entreprises': typeof AdminEntreprisesRoute
   '/admin/projets': typeof AdminProjetsRoute
@@ -210,6 +256,8 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/consultant/': typeof ConsultantIndexRoute
   '/entreprise/': typeof EntrepriseIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/consultants_/$id': typeof AdminConsultantsIdRoute
   '/admin/entreprises_/$id': typeof AdminEntreprisesIdRoute
   '/admin/projets_/$id': typeof AdminProjetsIdRoute
@@ -221,6 +269,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/mcp'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/admin/consultants'
     | '/admin/entreprises'
     | '/admin/projets'
@@ -236,6 +287,8 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/consultant/'
     | '/entreprise/'
+    | '/.lovable/oauth/consent'
+    | '/.mcp/invoke-tool/$tool'
     | '/admin/consultants/$id'
     | '/admin/entreprises/$id'
     | '/admin/projets/$id'
@@ -245,6 +298,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/mcp'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/admin/consultants'
     | '/admin/entreprises'
     | '/admin/projets'
@@ -260,6 +316,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/consultant'
     | '/entreprise'
+    | '/.lovable/oauth/consent'
+    | '/.mcp/invoke-tool/$tool'
     | '/admin/consultants/$id'
     | '/admin/entreprises/$id'
     | '/admin/projets/$id'
@@ -269,6 +327,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/mcp'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/admin/consultants'
     | '/admin/entreprises'
     | '/admin/projets'
@@ -284,6 +345,8 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/consultant/'
     | '/entreprise/'
+    | '/.lovable/oauth/consent'
+    | '/.mcp/invoke-tool/$tool'
     | '/admin/consultants_/$id'
     | '/admin/entreprises_/$id'
     | '/admin/projets_/$id'
@@ -294,6 +357,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  McpRoute: typeof McpRoute
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminConsultantsRoute: typeof AdminConsultantsRoute
   AdminEntreprisesRoute: typeof AdminEntreprisesRoute
   AdminProjetsRoute: typeof AdminProjetsRoute
@@ -309,6 +375,8 @@ export interface RootRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   ConsultantIndexRoute: typeof ConsultantIndexRoute
   EntrepriseIndexRoute: typeof EntrepriseIndexRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   AdminConsultantsIdRoute: typeof AdminConsultantsIdRoute
   AdminEntreprisesIdRoute: typeof AdminEntreprisesIdRoute
   AdminProjetsIdRoute: typeof AdminProjetsIdRoute
@@ -319,6 +387,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -431,6 +506,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminConsultantsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/entreprise/demandes/nouvelle': {
       id: '/entreprise/demandes/nouvelle'
       path: '/entreprise/demandes/nouvelle'
@@ -473,11 +562,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminConsultantsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  McpRoute: McpRoute,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AdminConsultantsRoute: AdminConsultantsRoute,
   AdminEntreprisesRoute: AdminEntreprisesRoute,
   AdminProjetsRoute: AdminProjetsRoute,
@@ -493,6 +600,8 @@ const rootRouteChildren: RootRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   ConsultantIndexRoute: ConsultantIndexRoute,
   EntrepriseIndexRoute: EntrepriseIndexRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   AdminConsultantsIdRoute: AdminConsultantsIdRoute,
   AdminEntreprisesIdRoute: AdminEntreprisesIdRoute,
   AdminProjetsIdRoute: AdminProjetsIdRoute,
